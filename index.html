@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fan Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        #quiz-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <h1>Fan Quiz: Футбольная викторина</h1>
+        <p id="question"></p>
+        <button id="option1" onclick="checkAnswer(1)"></button>
+        <button id="option2" onclick="checkAnswer(2)"></button>
+        <button id="option3" onclick="checkAnswer(3)"></button>
+        <button id="option4" onclick="checkAnswer(4)"></button>
+        <div id="result"></div>
+        <p>Твой счет: <span id="score">0</span> Fan Coins</p>
+        <button onclick="nextQuestion()">Следующий вопрос</button>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Кто выиграл ЧМ по футболу 2018?",
+                options: ["Бразилия", "Франция", "Германия", "Аргентина"],
+                correct: 2
+            },
+            {
+                question: "Как зовут лучшего бомбардира Барселоны?",
+                options: ["Роналду", "Месси", "Неймар", "Суарес"],
+                correct: 2
+            },
+            {
+                question: "Сколько игроков в футбольной команде на поле?",
+                options: ["9", "10", "11", "12"],
+                correct: 3
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById("question").innerText = q.question;
+            document.getElementById("option1").innerText = q.options[0];
+            document.getElementById("option2").innerText = q.options[1];
+            document.getElementById("option3").innerText = q.options[2];
+            document.getElementById("option4").innerText = q.options[3];
+            document.getElementById("result").innerText = "";
+        }
+
+        function checkAnswer(option) {
+            const q = questions[currentQuestion];
+            if (option === q.correct) {
+                score += 10;
+                document.getElementById("result").innerText = "Правильно! +10 Fan Coins";
+            } else {
+                document.getElementById("result").innerText = "Неправильно! Правильный ответ: " + q.options[q.correct - 1];
+            }
+            document.getElementById("score").innerText = score;
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                document.getElementById("quiz-container").innerHTML = `
+                    <h1>Игра окончена!</h1>
+                    <p>Ты набрал ${score} Fan Coins!</p>
+                    <p>Поделись результатом с друзьями!</p>
+                `;
+            }
+        }
+
+        // Загружаем первый вопрос
+        loadQuestion();
+    </script>
+</body>
+</html>
